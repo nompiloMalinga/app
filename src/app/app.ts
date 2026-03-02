@@ -1,12 +1,27 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Converter } from './service/converter';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [FormsModule,CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('app');
+  
+
+  email = '';
+  url = '';
+  response:any;
+
+  constructor(private con: Converter){}
+
+  submit(){
+    this.con.testEndpoint(this.url,this.email)
+    .subscribe(res =>{
+      this.response = res
+    })
+  }
 }
